@@ -12,6 +12,7 @@ import logging
 from logging import Formatter, FileHandler
 from flask_wtf import Form
 from forms import *
+import os
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
@@ -22,14 +23,13 @@ app.config.from_object('config')
 db = SQLAlchemy(app)
 
 # TODO: connect to a local postgresql database
-
+app.config['SQLACHEMY_DATABASE_URI']='postgresql://postgres:pgsql@localhost:5433/namedb'
 #----------------------------------------------------------------------------#
 # Models.
 #----------------------------------------------------------------------------#
 
 class Venue(db.Model):
     __tablename__ = 'Venue'
-
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
     city = db.Column(db.String(120))
@@ -510,12 +510,10 @@ if not app.debug:
 #----------------------------------------------------------------------------#
 
 # Default port:
-if __name__ == '__main__':
-    app.run()
+# if __name__ == '__main__':
+#     app.run(debug=True)
 
 # Or specify port manually:
-'''
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
-'''
+    app.run(debug=True,host='0.0.0.0', port=port)
