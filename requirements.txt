@@ -14,6 +14,7 @@ Mako==1.2.1
 MarkupSafe==2.1.1
 packaging==21.3
 postgres==4.0
+psycopg2==2.9.3
 psycopg2-binary==2.9.3
 psycopg2-pool==1.1
 pyparsing==3.0.9
@@ -21,5 +22,6 @@ python-dateutil==2.8.2
 pytz==2022.1
 six==1.16.0
 SQLAlchemy==1.4.39
+test-server==0.0.40
 Werkzeug==2.2.1
 WTForms==3.0.1
