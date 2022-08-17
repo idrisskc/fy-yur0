@@ -7,6 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 from model.models import Venue
 from flask_wtf import Form
 from forms import VenueForm
+import json
 
 
 def venues():
@@ -56,20 +57,19 @@ def delete_venue(venue_id):
 
 def edit_venue(venue_id):
   form = VenueForm()
-  venue={
-    "id": 1,
-    "name": "The Musical Hop",
-    "genres": ["Jazz", "Reggae", "Swing", "Classical", "Folk"],
-    "address": "1015 Folsom Street",
-    "city": "San Francisco",
-    "state": "CA",
-    "phone": "123-123-1234",
-    "website": "https://www.themusicalhop.com",
-    "facebook_link": "https://www.facebook.com/TheMusicalHop",
-    "seeking_talent": True,
-    "seeking_description": "We are on the lookout for a local artist to play every two weeks. Please call us.",
-    "image_link": "https://images.unsplash.com/photo-1543900694-133f37abaaa5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60"
-  }
+  venue =Venue.query.get(venue_id)
+  venue.name = request.form.get('name')
+  venue.city = request.form.get('city')
+  venue.state = request.form.get('state')
+  venue.phone = request.form.get('phone')
+  venue.image_link = request.form.get('image_link')
+  venue.facebook_link = request.form.get('facebook_link')
+  venue.website = request.form.get('website')
+  venue.genres = json.dumps(request.form.getlist('genres'))
+  venue.seeking_venue = request.form.get('seeking_venue')
+  venue.seeking_description = request.form.get('seeking_description')
+  venue.seeking_talent = True if venue.seeking_talent == 'y' else False
+  
   # TODO: populate form with values from venue with ID <venue_id>
   return render_template('forms/edit_venue.html', form=form, venue=venue)
 
