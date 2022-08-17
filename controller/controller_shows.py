@@ -5,7 +5,6 @@ import dateutil.parser
 import babel
 from flask_wtf import Form
 from forms import *
-app = Flask(__name__)
 
 def create_shows():
   # renders form. do not touch.

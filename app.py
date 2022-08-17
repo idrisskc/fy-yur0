@@ -4,19 +4,18 @@ import babel
 from flask_migrate import Migrate
 
 from model.models import db
-
+import os
 from router.route_venues import path1
 from router.route_artists import path2
 from router.route_shows import path3
 
 #----------------------------------------------------------------------------#
 # Set-up flask app
-#----------------------------------------------------------------------------#
+#----------------------------------------------------.------------------------#
 
 app = Flask(__name__)
 app.config.from_object('config')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-from model.models import db
 db.init_app(app)
 migrate = Migrate(app, db)
 
@@ -31,7 +30,7 @@ migrate = Migrate(app, db)
 #                              password= 'pgsql')
 #     return conn
 
-app.register_blueprint(path1, url_prefix = '/venue')
+app.register_blueprint(path1, url_prefix = '/venues')
 app.register_blueprint(path2, url_prefix = '/artist')
 app.register_blueprint(path3, url_prefix = '/shows')
 

@@ -24,6 +24,7 @@ class Venue(db.Model):
     image_link = db.Column(db.String(500),default = True)
     facebook_link = db.Column(db.String(120), default = True)
     website = db.Column(db.String(120), default = True)
+    seeking_talent = db.Column(db.Boolean, nullable = True)
     seeking_description = db.Column(db.String(500), default = True)
     artist_name = db.Column(db.String(120))
     start_time = db.Column(db.DateTime(), default = datetime.utcnow)
@@ -45,6 +46,7 @@ class Artist(db.Model):
     genres = db.Column(db.String(120), nullable = True)
     image_link = db.Column(db.String(500), default=True)
     facebook_link = db.Column(db.String(120), default=True)
+    seeking_venue = db.Column(db.Boolean, nullable = True)
     seeking_description = db.Column(db.String(500), default=True)
     
     def __repr__(self):
@@ -55,26 +57,25 @@ class Artist(db.Model):
 
 # data = [
 #     {
-#        'name':'The Musical Hop'
-#        'genres':'diaz'
-#        'city':'San Francisco'
+#        'name':'The Musical Hop',
+#        'genres':'diaz',
+#        'city':'San Francisco',
 #        'state':'CA' 
 #     },
 #     {
-#        'name':'Park Square Live Music & Coffee'
-#        'genres':'diaz'
-#        'city':'San Francisco'
+#        'name':'Park Square Live Music & Coffee',
+#        'genres':'diaz',
+#        'city':'San Francisco',
 #        'state':'CA' 
 #     },
 #     {
-#        'name':'The Dueling Pianos Bar'
-#        'genres':'rock'
-#        'city':'New York'
+#        'name':'The Dueling Pianos Bar',
+#        'genres':'rock',
+#        'city':'New York',
 #        'state':'NY'   
 #     }
 # ]
-# venue_insert = insert(Venue).values(data)    
 
-# venue_insert = Venue(name='The Musical Hop',genres='rock', city='San Francisco', state='CA' )
+# venue_insert = insert(Venue).values(data)
 # db.session.add(venue_insert)
 # db.session.commit()
