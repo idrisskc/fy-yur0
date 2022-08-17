@@ -69,13 +69,14 @@ def edit_venue(venue_id):
   venue.seeking_venue = request.form.get('seeking_venue')
   venue.seeking_description = request.form.get('seeking_description')
   venue.seeking_talent = True if venue.seeking_talent == 'y' else False
-  
+  db.session.add(venue)
+  db.session.commit()
   # TODO: populate form with values from venue with ID <venue_id>
   return render_template('forms/edit_venue.html', form=form, venue=venue)
 
 def edit_venue_submission(venue_id):
   # TODO: take values from the form submitted, and update existing
-  # venue record with ID <venue_id> using the new attributes
+  venue_id = Venue.query().filter(Venue.id==venue_id).get(Venue.id)
   return redirect(url_for('show_venue', venue_id=venue_id))
 
 
