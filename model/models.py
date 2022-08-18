@@ -28,7 +28,7 @@ class Venue(db.Model):
     seeking_description = db.Column(db.String(500), default = True)
     artist_name = db.Column(db.String(120))
     start_time = db.Column(db.DateTime(), default = datetime.utcnow)
-    artist = db.relationship('Product', secondary = Shows, backref = db.backref('venues', lazy = True))
+    artist = db.relationship('Artist', secondary = Shows, backref = db.backref('venues', lazy = True))
         
     def __repr__(self):
         return f'{self.name}:{self.id}'

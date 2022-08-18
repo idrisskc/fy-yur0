@@ -31,7 +31,7 @@ migrate = Migrate(app, db)
 #     return conn
 
 app.register_blueprint(path1, url_prefix = '/venues')
-app.register_blueprint(path2, url_prefix = '/artist')
+app.register_blueprint(path2, url_prefix = '/artists')
 app.register_blueprint(path3, url_prefix = '/shows')
 
 

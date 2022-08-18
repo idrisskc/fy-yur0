@@ -7,6 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 from model.models import Venue
 from flask_wtf import Form
 from forms import VenueForm
+from model.models import db
 import json
 
 
