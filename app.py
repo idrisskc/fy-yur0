@@ -3,19 +3,22 @@ import dateutil.parser
 import babel
 from flask_migrate import Migrate
 
-from model.models import db
+from flask_sqlalchemy import SQLAlchemy
 import os
 from router.route_venues import path1
 from router.route_artists import path2
 from router.route_shows import path3
+from config import Config
 
 #----------------------------------------------------------------------------#
 # Set-up flask app
 #----------------------------------------------------.------------------------#
 
 app = Flask(__name__)
-app.config.from_object('config')
+app.config.from_object(Config)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
 db.init_app(app)
 migrate = Migrate(app, db)
 
@@ -23,12 +26,6 @@ migrate = Migrate(app, db)
 # Set-up database connection with psycopg2
 #----------------------------------------------------------------------------#
 
-# def get_db_connection():
-#     conn = psycopg2.connect( host="localhost",
-#                              database="fyyur",
-#                              user= 'postgres',
-#                              password= 'pgsql')
-#     return conn
 
 app.register_blueprint(path1, url_prefix = '/venues')
 app.register_blueprint(path2, url_prefix = '/artists')
