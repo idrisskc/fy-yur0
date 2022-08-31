@@ -2,24 +2,27 @@ from flask import Flask, render_template
 import dateutil.parser
 import babel
 from flask_migrate import Migrate
-
+from config import SQLALCHEMY_DATABASE_URI
 from flask_sqlalchemy import SQLAlchemy
 import os
 from router.route_venues import path1
 from router.route_artists import path2
 from router.route_shows import path3
-from config import Config
+# from config import Config
 
 #----------------------------------------------------------------------------#
 # Set-up flask app
 #----------------------------------------------------.------------------------#
 
 app = Flask(__name__)
-app.config.from_object(Config)
+# moment = Moment(app)
+app.config.from_object('config')
+db = SQLAlchemy(app)
+
+# connects to a local postgresql database
+app.config['SQLALCHEMY_DATABASE_URI'] = SQLALCHEMY_DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
-db.init_app(app)
 migrate = Migrate(app, db)
 
 #----------------------------------------------------------------------------#

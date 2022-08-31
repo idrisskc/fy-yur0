@@ -2,52 +2,43 @@ from sqlalchemy.orm import relationship, backref
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship
-from sqlalchemy.dialects.postgresql import insert
-from datetime import datetime
 
 app = Flask(__name__)
 db = SQLAlchemy(app)
 
-Shows = db.Table('Shows',
-    db.Column('venue_id', db.Integer, db.ForeignKey('venue.id'), primary_key=True),
-    db.Column('artist_id', db.Integer, db.ForeignKey('artist.id'), primary_key=True)
-)
 class Venue(db.Model):
-    __tablename__ = 'venue'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    __tablename__ = 'Venue'
+
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String)
-    genres = db.Column(db.String(120), nullable = True)
     city = db.Column(db.String(120))
     state = db.Column(db.String(120))
-    address = db.Column(db.String(120),default = True)
-    phone = db.Column(db.String(120), nullable = True)
-    image_link = db.Column(db.String(500),default = True)
-    facebook_link = db.Column(db.String(120), default = True)
-    website = db.Column(db.String(120), default = True)
-    seeking_talent = db.Column(db.Boolean, nullable = True)
-    seeking_description = db.Column(db.String(500), default = True)
-    artist_name = db.Column(db.String(120))
-    start_time = db.Column(db.DateTime(), default = datetime.utcnow)
-    artist = db.relationship('Artist', secondary = 'shows', backref=backref("venue", cascade="all, delete-orphan"))
-    # artist = db.relationship('Artist', secondary = 'shows')
-    
-    def __repr__(self):
-        return f'{self.id}'    
-class Artist(db.Model):
-    __tablename__ = 'artist'
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(120))
+    address = db.Column(db.String(120), unique=True)
+    phone = db.Column(db.String(120), unique=True)
+    image_link = db.Column(db.String(500))
     genres = db.Column(db.String(120))
+    facebook_link = db.Column(db.String(120), unique=True)
+    shows = db.relationship('Show', backref='Venue', lazy=True)
+
+
+class Artist(db.Model):
+    __tablename__ = 'Artist'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
     city = db.Column(db.String(120))
-    website = db.Column(db.String(120), default=True)
-    state = db.Column(db.String(120), nullable = True)
-    phone = db.Column(db.String(120), nullable = True)
-    genres = db.Column(db.String(120), nullable = True)
-    image_link = db.Column(db.String(500), default=True)
-    facebook_link = db.Column(db.String(120), default=True)
-    seeking_venue = db.Column(db.Boolean, nullable = True)
-    seeking_description = db.Column(db.String(500), default=True)
-    venue = relationship('Artist', secondary = "shows",backref=backref("shows", cascade="all, delete-orphan"))
-    # venue = relationship('Artist', secondary = "shows")
-    def __repr__(self):
-        return f'{self.id}'
+    state = db.Column(db.String(120))
+    phone = db.Column(db.String(120), unique=True)
+    genres = db.Column(db.String(120))
+    image_link = db.Column(db.String(500))
+    facebook_link = db.Column(db.String(120), unique=True)
+    shows = db.relationship('Show', backref='Artist', lazy=True)
+
+
+class Show(db.Model):
+    __tablename__ = 'Show'
+
+    id = db.Column(db.Integer, primary_key=True)
+    start_time = db.Column('start_time', db.DateTime)
+    venue_id = db.Column(db.Integer, db.ForeignKey('Venue.id'), nullable=False)
+    artist_id = db.Column(db.Integer, db.ForeignKey('Artist.id'), nullable=False)
