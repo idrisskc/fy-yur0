@@ -1,58 +1,58 @@
-from fabric.api import local, settings, abort
-from fabric.contrib.console import confirm
+# from fabric.api import local, settings, abort
+# from fabric.contrib.console import confirm
 
-# prepare for deployment
-
-
-def test():
-    with settings(warn_only=True):
-        result = local(
-            "python test_tasks.py -v && python test_users.py -v", capture=True
-        )
-    if result.failed and not confirm("Tests failed. Continue?"):
-        abort("Aborted at user request.")
+# # prepare for deployment
 
 
-def commit():
-    message = raw_input("Enter a git commit message: ")
-    local("git add . && git commit -am '{}'".format(message))
+# def test():
+#     with settings(warn_only=True):
+#         result = local(
+#             "python test_tasks.py -v && python test_users.py -v", capture=True
+#         )
+#     if result.failed and not confirm("Tests failed. Continue?"):
+#         abort("Aborted at user request.")
 
 
-def push():
-    local("git push origin master")
+# def commit():
+#     message = raw_input("Enter a git commit message: ")
+#     local("git add . && git commit -am '{}'".format(message))
 
 
-def prepare():
-    test()
-    commit()
-    push()
-
-# deploy to heroku
+# def push():
+#     local("git push origin master")
 
 
-def pull():
-    local("git pull origin master")
+# def prepare():
+#     test()
+#     commit()
+#     push()
+
+# # deploy to heroku
 
 
-def heroku():
-    local("git push heroku master")
+# def pull():
+#     local("git pull origin master")
 
 
-def heroku_test():
-    local(
-        "heroku run python test_tasks.py -v && heroku run python test_users.py -v"
-    )
+# def heroku():
+#     local("git push heroku master")
 
 
-def deploy():
-    pull()
-    test()
-    commit()
-    heroku()
-    heroku_test()
-
-# rollback
+# def heroku_test():
+#     local(
+#         "heroku run python test_tasks.py -v && heroku run python test_users.py -v"
+#     )
 
 
-def rollback():
-    local("heroku rollback")
+# def deploy():
+#     pull()
+#     test()
+#     commit()
+#     heroku()
+#     heroku_test()
+
+# # rollback
+
+
+# def rollback():
+#     local("heroku rollback")
